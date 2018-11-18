@@ -16,7 +16,7 @@ Isometry3d parse_transform(Property const& cfg_transform)
     double r = properties::get_double(cfg_dh, "r");
     double theta = properties::get_double(cfg_dh, "theta");
     double d = properties::get_double(cfg_dh, "d");
-    return dh_transform(d, theta, r, alpha);
+    return dh_transform(r, alpha, d, theta);
 }
 
 Joint parse_joint(Property const& cfg_joint)

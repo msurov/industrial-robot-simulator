@@ -9,19 +9,21 @@ include_directories(${EIGEN3_INCLUDE_DIRS})
 find_package(Threads REQUIRED)
 find_package(jsoncpp REQUIRED)
 include_directories("/usr/include/jsoncpp")
+find_package(roscpp REQUIRED)
+include_directories(${roscpp_INCLUDE_DIRS})
 
 add_executable(ursim
     src/formatting.h
     src/main.cpp
     src/planner.h
-    src/robot.h
+    src/robot_sim.h
+    src/robot_sim.cpp
     src/signals.h
     src/throws.h
     src/trajectory.h
     src/trajectory.cpp
     src/joints.h
     src/math.h
-    src/robot.cpp
     src/signals.cpp
     src/threads.h
     src/timeutils.h
@@ -30,7 +32,7 @@ add_executable(ursim
     src/properties.h
     src/properties.cpp
 )
-target_link_libraries(ursim Threads::Threads jsoncpp)
+target_link_libraries(ursim Threads::Threads jsoncpp ${roscpp_LIBRARIES})
 
 add_executable(test_planner
     src/trajectory.h
@@ -61,3 +63,10 @@ add_executable(test_transforms
 )
 target_link_libraries(test_transforms jsoncpp)
 add_test(NAME test_transforms COMMAND test_transforms)
+
+
+add_executable(test_publisher
+    tests/test_publisher.cpp
+)
+target_link_libraries(test_publisher ${roscpp_LIBRARIES})
+add_test(NAME test_publisher COMMAND test_publisher)

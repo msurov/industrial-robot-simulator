@@ -1,4 +1,5 @@
-#include "robot.h"
+#include <iostream>
+#include "robot_sim.h"
 #include "timeutils.h"
 #include "planner.h"
 #include "kinematics.h"
@@ -109,12 +110,18 @@ bool verify_target(Joints const& target, Joints const& vel, Joints const& acc)
 bool RobotSim::movej(Joints const& target, Joints const& vel, Joints const& acc)
 {
     if (!verify_target(target, vel, acc))
+    {
+        std::cerr << "target is out of operating range" << std::endl;
         return false;
+    }
 
     std::lock_guard<std::mutex> lock(_mtx_change_state);
 
     if (_state != RobotState::Ready)
+    {
+        std::cerr << "can't execute: robot is busy now" << std::endl;
         return false;
+    }
 
     auto const& trajectory = plan_trajectory(_q, target, vel, acc, _period);
     _traj.reset(new Trajectory(trajectory));

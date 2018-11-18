@@ -3,26 +3,10 @@
 #include <functional>
 
 
-class SysSignals
+namespace signals
 {
-public:
     using sighandler_t = std::function<void(void)>;
-
-private:
-    sighandler_t _sigint_handler;
-    sighandler_t _sigterm_handler;
-    sighandler_t _sighup_handler;
-
-    static void handle(int sig);
-
-public:
-    SysSignals(SysSignals&&) = delete;
-    SysSignals(SysSignals const&) = delete;
-    SysSignals();
-    ~SysSignals();
-
-    void set_sigint_handler(sighandler_t handler);
-    void set_sigterm_handler(sighandler_t handler);
-    void set_sighup_handler(sighandler_t handler);
-    static SysSignals* instance();
+    void set_sigint_handler(sighandler_t const& handler);
+    void set_sigterm_handler(sighandler_t const& handler);
+    void set_sighup_handler(sighandler_t const& handler);
 };
