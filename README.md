@@ -1,1 +1,1 @@
-Test problem for NoMagic
+Simulator of kinematics of an industrial robot.
